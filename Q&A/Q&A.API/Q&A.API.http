@@ -1,0 +1,6 @@
+@Q_A.API_HostAddress = http://localhost:5207
+
+GET {{Q_A.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
