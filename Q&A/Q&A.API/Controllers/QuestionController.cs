@@ -4,10 +4,10 @@ using Q_A.API.Model;
 
 namespace Q_A.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class QuestionController : ControllerBase
     {
-       
+     
     }
 }
