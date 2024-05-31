@@ -1,4 +1,6 @@
-﻿namespace Q_A.API.Middleware
+﻿using Q_A.API.Model;
+
+namespace Q_A.API.Middleware
 {
     public class ExceptionHandlingMiddleware
     {
@@ -25,7 +27,8 @@
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            _logger.LogError(exception, "An unexpected error occurred.");
+            //_logger.LogError(exception, "An unexpected error occurred.");
+            ErrorLog.SaveErrorLog("GlobalSection", exception.ToString());
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync("");
         }
