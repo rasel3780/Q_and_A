@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q&A.API", "Q&A.API\Q&A.API.csproj", "{A7CBB5AF-4A90-4982-95F3-4B0BAEC0140E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Q&A.API", "Q&A.API\Q&A.API.csproj", "{A7CBB5AF-4A90-4982-95F3-4B0BAEC0140E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q&A.Web", "Q&A.Web\Q&A.Web.csproj", "{6060CD6A-93C5-40DA-95B8-D9E95AB97361}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q&A.Web", "Q&A.Web\Q&A.Web.csproj", "{68650BB9-A07B-4691-81CF-7C5E6E0B2DAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A7CBB5AF-4A90-4982-95F3-4B0BAEC0140E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7CBB5AF-4A90-4982-95F3-4B0BAEC0140E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7CBB5AF-4A90-4982-95F3-4B0BAEC0140E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6060CD6A-93C5-40DA-95B8-D9E95AB97361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6060CD6A-93C5-40DA-95B8-D9E95AB97361}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6060CD6A-93C5-40DA-95B8-D9E95AB97361}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6060CD6A-93C5-40DA-95B8-D9E95AB97361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68650BB9-A07B-4691-81CF-7C5E6E0B2DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68650BB9-A07B-4691-81CF-7C5E6E0B2DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68650BB9-A07B-4691-81CF-7C5E6E0B2DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68650BB9-A07B-4691-81CF-7C5E6E0B2DAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
