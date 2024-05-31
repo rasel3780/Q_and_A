@@ -7,6 +7,7 @@ namespace Q_A.API.Model
     public class Questions
     {
         public int QuestionID { get; set; }
+        public string Title { get; set; }
         public string Category { get; set; }
         public string Question { get; set; }
         public string MakeBy { get; set; }
@@ -42,6 +43,7 @@ namespace Q_A.API.Model
                 {
                     Questions obj = new Questions();
                     obj.QuestionID = (int)reader["QuestionID"];
+                    obj.Title = reader["Title"].ToString();
                     obj.Category = reader["Category"].ToString();
                     obj.Question = reader["Question"].ToString();
                     obj.MakeBy = reader["MakeBy"].ToString();
