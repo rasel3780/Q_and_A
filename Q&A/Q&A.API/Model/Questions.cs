@@ -13,12 +13,7 @@ namespace Q_A.API.Model
         public string MakeBy { get; set; }
         public DateTime MakeDate { get; set; }
         public int UserID { get; set; }
-        public List<Questions> QuestionList { get; set; }
-
-        public Questions()
-        {
-            QuestionList = new List<Questions>();
-        }
+        
 
         public static List<Questions> GetAllQuestion()
         {
@@ -47,7 +42,7 @@ namespace Q_A.API.Model
                     obj.Category = reader["Category"].ToString();
                     obj.Question = reader["Question"].ToString();
                     obj.MakeBy = reader["MakeBy"].ToString();
-                    obj.MakeDate = (DateTime)reader["MakeDate"];
+                    obj.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString());
                     obj.UserID = (int)reader["UserID"];
 
                     quesList.Add(obj);
@@ -57,7 +52,5 @@ namespace Q_A.API.Model
             _connection.Close();
             return quesList;
         }
-
-
     }
 }
