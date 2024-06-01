@@ -37,13 +37,13 @@ namespace Q_A.API.Model
                 while (reader.Read())
                 {
                     Questions obj = new Questions();
-                    obj.QuestionID = (int)reader["QuestionID"];
+                    obj.QuestionID = Convert.ToInt32(reader["QuestionID"]);
                     obj.Title = reader["Title"].ToString();
                     obj.Category = reader["Category"].ToString();
                     obj.Question = reader["Question"].ToString();
                     obj.MakeBy = reader["MakeBy"].ToString();
                     obj.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString());
-                    obj.UserID = (int)reader["UserID"];
+                    obj.UserID = Convert.ToInt32(reader["UserID"]);
 
                     quesList.Add(obj);
                 }    
