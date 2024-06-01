@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
+using System.Runtime.CompilerServices;
 namespace Q_A.API.Model
 {
     public class Answers
@@ -26,6 +27,7 @@ namespace Q_A.API.Model
             cmd.CommandText = "dbo.sp_GetAnsByQuesId";
                 
             cmd.Parameters.Clear();
+            cmd.Parameters.Add(new SqlParameter("@QuestionID", quesId));
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 0;
 
@@ -41,7 +43,7 @@ namespace Q_A.API.Model
                     obj.Answer = reader["Answer"].ToString();
                     obj.MakeBy = reader["MakeBy"].ToString(); ;
                     obj.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString()); ;
-                    obj.AnswerAcceptedBy = reader[""].ToString(); ;
+                    obj.AnswerAcceptedBy = reader["AnswerAcceptedBy"].ToString(); ;
                     obj.AnswerAcceptedDate = Convert.ToDateTime(reader["AnswerAcceptedDate"].ToString()); ;
                     obj.UserID = Convert.ToInt32(reader["UserID"]);
 
