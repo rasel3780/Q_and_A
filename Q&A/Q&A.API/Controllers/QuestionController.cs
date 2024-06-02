@@ -14,13 +14,16 @@ namespace Q_A.API.Controllers
             return Ok(questions);
         }
 
-        //[HttpGet("QuestionDetail/{questionID}")]
-        //public IActionResult GetQuestionDetail(int quesId)
-        //{
-        //    Questions question = Questions.GetQuesById(quesId);
-        //    question.AnswersList = Answers.GetAnsByQuesId(quesId);
+        [HttpGet("QuestionDetail/{questionID}")]
+        public IActionResult GetQuestionDetail(int questionID)
+        {
+            Questions question = Questions.GetQuesById(questionID);
+            if (question == null) 
+            {
+                return NotFound();
+            }
 
-        //    return Ok(question);
-        //}
+            return Ok(question);
+        }
     }
 }
