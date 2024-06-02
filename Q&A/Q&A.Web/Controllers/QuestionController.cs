@@ -2,7 +2,7 @@
 
 namespace Q_A.Web.Controllers
 {
-    public class QuestionAnswerController : Controller
+    public class QuestionController : Controller
     {
         public IActionResult Index()
         {
