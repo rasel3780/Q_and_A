@@ -13,8 +13,12 @@ namespace Q_A.API.Model
         public string MakeBy { get; set; }
         public DateTime MakeDate { get; set; }
         public int UserID { get; set; }
-        
+        public List<Answers> AnswersList { get; set; }
 
+        public Questions()
+        {
+            AnswersList = new List<Answers>();
+        }
         public static List<Questions> GetAllQuestion()
         {
             List<Questions> quesList = new List<Questions>();
@@ -25,7 +29,7 @@ namespace Q_A.API.Model
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = _connection;
-            cmd.CommandText = "sp_GetQuestionList";
+            cmd.CommandText = "dbo.sp_GetQuestionList";
             cmd.Parameters.Clear();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 0;
@@ -51,6 +55,43 @@ namespace Q_A.API.Model
             cmd.Dispose();
             _connection.Close();
             return quesList;
+        }
+
+        public static Questions GetQuesById(int questionID)
+        {
+            Questions ques = null;
+            string conString = DbConnection.GetDbConString();
+
+            SqlConnection _connection = new SqlConnection(conString);
+            _connection.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = _connection;
+            cmd.CommandText = "dbo.sp_GetQuesById";
+            cmd.Parameters.Clear();
+            cmd.Parameters.Add(new SqlParameter("@QuestionID", questionID));
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandTimeout = 0;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+
+                {
+                    ques = new Questions();
+                    ques.QuestionID = Convert.ToInt32(reader["QuestionID"]);
+                    ques.Title = reader["Title"].ToString();
+                    ques.Category = reader["Category"].ToString();
+                    ques.Question = reader["Question"].ToString();
+                    ques.MakeBy = reader["MakeBy"].ToString();
+                    ques.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString());
+                    ques.UserID = Convert.ToInt32(reader["UserID"]);
+
+                }
+            }
+            return ques; 
         }
     }
 }
