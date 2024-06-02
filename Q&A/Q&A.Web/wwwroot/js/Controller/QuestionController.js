@@ -1,6 +1,6 @@
-﻿var QuestionAnswerController = {
-    LstQuestion: function () {
-        QuestionAnswerService.QuestionLst(function (response) {
+﻿var QuestionController = {
+    LstQuestion: ()=> {
+        QuestionService.QuestionLst(function (response) {
             let questionContent = '';
             $.each(response, function (index, value) {
                 questionContent += `
