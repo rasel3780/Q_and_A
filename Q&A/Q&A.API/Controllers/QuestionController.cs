@@ -42,6 +42,15 @@ namespace Q_A.API.Controllers
             } 
         }
 
-     
+        [HttpPost("PostQestion")]
+        public IActionResult PostQuestions([FromBody] Questions question)
+        {
+            int isSaved = Questions.SaveQuestion(question);
+            if(isSaved>0)
+            {
+                return Ok(question);
+            }
+            return BadRequest("Failed to post the question");
+        }
     }
 }
