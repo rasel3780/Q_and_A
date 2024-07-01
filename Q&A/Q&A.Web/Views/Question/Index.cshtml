@@ -1,13 +1,13 @@
-﻿<script>
+﻿@{
+    ViewData["Title"] = "Questions";
+}
+
+<script>
     $(document).ready(function () {
-        QuestionController.LstQuestion();
+        QuestionController.LstQuestions();
     });
 </script>
 
-
 <div class="container">
-    
-    <div class="row" id="questionContainer">
-
-    </div>
+    <div class="row" id="questionContainer"></div>
 </div>

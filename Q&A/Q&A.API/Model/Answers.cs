@@ -14,44 +14,54 @@ namespace Q_A.API.Model
         public DateTime AnswerAcceptedDate { get; set; }
         public int UserID { get; set; }
 
-        public static List<Answers> GetAnsByQuesId(int quesId)
+        public static async Task<List<Answers>> GetAnsByQuesId(int quesId)
         {
             List<Answers> ansList = new List<Answers>();
             string conString = DbConnection.GetDbConString();
 
-            SqlConnection _connnection = new SqlConnection(conString);
-            _connnection.Open();
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = _connnection;
-            cmd.CommandText = "dbo.sp_GetAnsByQuesId";
-                
-            cmd.Parameters.Clear();
-            cmd.Parameters.Add(new SqlParameter("@QuestionID", quesId));
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandTimeout = 0;
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows)
+            using (SqlConnection _connnection = new SqlConnection(conString))
             {
-                while (reader.Read())
-                {
-                    Answers obj = new Answers();
-                    obj.AnswerID = Convert.ToInt32(reader["AnswerID"]);
-                    obj.QuestionID = Convert.ToInt32(reader["QuestionID"]); ;
-                    obj.Answer = reader["Answer"].ToString();
-                    obj.MakeBy = reader["MakeBy"].ToString(); ;
-                    obj.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString()); ;
-                    obj.AnswerAcceptedBy = reader["AnswerAcceptedBy"].ToString(); ;
-                    obj.AnswerAcceptedDate = Convert.ToDateTime(reader["AnswerAcceptedDate"].ToString()); ;
-                    obj.UserID = Convert.ToInt32(reader["UserID"]);
 
-                    ansList.Add(obj);
+
+                await _connnection.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+
+
+                    cmd.Connection = _connnection;
+                    cmd.CommandText = "dbo.sp_GetAnsByQuesId";
+
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add(new SqlParameter("@QuestionID", quesId));
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                Answers obj = new Answers
+                                {
+                                    AnswerID = Convert.ToInt32(reader["AnswerID"]),
+                                    QuestionID = Convert.ToInt32(reader["QuestionID"]),
+                                    Answer = reader["Answer"].ToString(),
+                                    MakeBy = reader["MakeBy"].ToString(),
+                                    MakeDate = Convert.ToDateTime(reader["MakeDate"]),
+                                    AnswerAcceptedBy = reader["AnswerAcceptedBy"].ToString(),
+                                    AnswerAcceptedDate = Convert.ToDateTime(reader["AnswerAcceptedDate"]),
+                                    UserID = Convert.ToInt32(reader["UserID"])
+                                };
+
+                                ansList.Add(obj);
+                            }
+                        }
+                    }
                 }
             }
-            cmd.Dispose();
-            _connnection.Close();
             return ansList;
         }
     }
