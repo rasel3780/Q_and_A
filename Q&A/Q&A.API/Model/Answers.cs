@@ -21,14 +21,10 @@ namespace Q_A.API.Model
 
             using (SqlConnection _connnection = new SqlConnection(conString))
             {
-
-
                 await _connnection.OpenAsync();
 
                 using (SqlCommand cmd = new SqlCommand())
                 {
-
-
                     cmd.Connection = _connnection;
                     cmd.CommandText = "dbo.sp_GetAnsByQuesId";
 

@@ -19,6 +19,33 @@ namespace Q_A.API.Model
         {
             AnswersList = new List<Answers>();
         }
+
+        public static int SaveQuestion(Questions question)
+        {
+            string conString = DbConnection.GetDbConString();
+            using (SqlConnection _connection = new SqlConnection(conString))
+            {
+                _connection.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.Connection = _connection;
+                    cmd.CommandText = "dbo.sp_SaveQuestion";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add(new SqlParameter("@Title", question.Title));
+                    cmd.Parameters.Add(new SqlParameter("@Category", question.Category));
+                    cmd.Parameters.Add(new SqlParameter("@Question", question.Question));
+                    cmd.Parameters.Add(new SqlParameter("@MakeBy", question.MakeBy));
+                    cmd.Parameters.Add(new SqlParameter("@MakeDate", question.MakeDate));
+                    cmd.Parameters.Add(new SqlParameter("@UserID", question.UserID));
+
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+
+                }
+            }
+        }
+
         public static async Task<List<Questions>> GetAllQuestion()
         {
             List<Questions> quesList = new List<Questions>();
