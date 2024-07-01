@@ -5,15 +5,35 @@
 }
 
 <script>
-    $(document).ready(function () {
-        QuestionController.LoadQuestionDetail(@questionID);
+    $(document).ready(function () 
+    {
+        // QuestionController.LoadQuestionDetail(@questionID);
+
+        $.get("http://localhost:5207/api/Question/QuestionDetail/1", function (data, status) {
+            let questionContent = `
+                        <h3 class="text-primary">${data.title}</h3>
+                        <p class="text-muted">#${data.questionID}</p>
+                        <p>${data.question}</p>
+                        <div class="d-flex justify-content-between">
+                            <span class="badge bg-secondary">${data.category}</span>
+                            <small class="text-primary">${data.makeBy}</small>
+                            <small>${new Date(data.makeDate).toLocaleDateString()}</small>
+                        </div>
+                    `;
+            $('#questionDetail').html(questionContent);
+            AnswerController.LoadAnswer(data.questionID);
+            console.log(data);
+        });
+           
     });
 </script>
 
 <div class="container">
-    <div class="row">
-        <div class="col-12" id="questionDetail">
-            Ekhane asce
-        </div>
+    <div class="row" id="questionDetail">
+
+    </div>
+    <hr>
+    <div class="row" id="answerContainer">
+
     </div>
 </div>

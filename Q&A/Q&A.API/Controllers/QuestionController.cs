@@ -8,22 +8,40 @@ namespace Q_A.API.Controllers
     public class QuestionController : ControllerBase
     {
         [HttpGet("QuestionList")]
-        public IActionResult GetQuestions()
+        public async Task<IActionResult> GetQuestions()
         {
-            List<Questions> questions = Questions.GetAllQuestion();
-            return Ok(questions);
+            try
+            {
+                List<Questions> questions = await Questions.GetAllQuestion();
+                return Ok(questions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpGet("QuestionDetail/{questionID}")]
-        public IActionResult GetQuestionDetail(int questionID)
+        public async Task<IActionResult> GetQuestionDetail(int questionID)
         {
-            Questions question = Questions.GetQuesById(questionID);
-            if (question == null) 
+            try
             {
-                return NotFound();
+                Questions question = await Questions.GetQuesById(questionID);
+                if (question == null)
+                {
+                    return NotFound();
+                }
+                question.AnswersList = await Answers.GetAnsByQuesId(questionID);
+                return Ok(question);
+            }
+            
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
 
-            return Ok(question);
+           
         }
     }
 }

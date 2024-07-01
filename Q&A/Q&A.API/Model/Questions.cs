@@ -19,79 +19,92 @@ namespace Q_A.API.Model
         {
             AnswersList = new List<Answers>();
         }
-        public static List<Questions> GetAllQuestion()
+        public static async Task<List<Questions>> GetAllQuestion()
         {
             List<Questions> quesList = new List<Questions>();
             string conString = DbConnection.GetDbConString();
 
-            SqlConnection _connection = new SqlConnection(conString);
-            _connection.Open();
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = _connection;
-            cmd.CommandText = "dbo.sp_GetQuestionList";
-            cmd.Parameters.Clear();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandTimeout = 0;
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows)
+            using (SqlConnection _connection = new SqlConnection(conString))
             {
-                while (reader.Read())
-                {
-                    Questions obj = new Questions();
-                    obj.QuestionID = Convert.ToInt32(reader["QuestionID"]);
-                    obj.Title = reader["Title"].ToString();
-                    obj.Category = reader["Category"].ToString();
-                    obj.Question = reader["Question"].ToString();
-                    obj.MakeBy = reader["MakeBy"].ToString();
-                    obj.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString());
-                    obj.UserID = Convert.ToInt32(reader["UserID"]);
+                await _connection.OpenAsync();
 
-                    quesList.Add(obj);
-                }    
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.Connection = _connection;
+                    cmd.CommandText = "dbo.sp_GetQuestionList";
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+
+                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Questions obj = new Questions
+                            {
+                                QuestionID = Convert.ToInt32(reader["QuestionID"]),
+                                Title = reader["Title"].ToString(),
+                                Category = reader["Category"].ToString(),
+                                Question = reader["Question"].ToString(),
+                                MakeBy = reader["MakeBy"].ToString(),
+                                MakeDate = Convert.ToDateTime(reader["MakeDate"]),
+                                UserID = Convert.ToInt32(reader["UserID"])
+                            };
+
+                            quesList.Add(obj);
+                        }
+                    }
+                }
             }
-            cmd.Dispose();
-            _connection.Close();
             return quesList;
         }
 
-        public static Questions GetQuesById(int questionID)
+        public static async Task<Questions> GetQuesById(int questionID)
         {
             Questions ques = null;
             string conString = DbConnection.GetDbConString();
 
-            SqlConnection _connection = new SqlConnection(conString);
-            _connection.Open();
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = _connection;
-            cmd.CommandText = "dbo.sp_GetQuesById";
-            cmd.Parameters.Clear();
-            cmd.Parameters.Add(new SqlParameter("@QuestionID", questionID));
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandTimeout = 0;
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows)
+            using (SqlConnection _connection = new SqlConnection(conString))
             {
-                while (reader.Read())
+                await _connection.OpenAsync();
 
+                using (SqlCommand cmd = new SqlCommand())
                 {
-                    ques = new Questions();
-                    ques.QuestionID = Convert.ToInt32(reader["QuestionID"]);
-                    ques.Title = reader["Title"].ToString();
-                    ques.Category = reader["Category"].ToString();
-                    ques.Question = reader["Question"].ToString();
-                    ques.MakeBy = reader["MakeBy"].ToString();
-                    ques.MakeDate = Convert.ToDateTime(reader["MakeDate"].ToString());
-                    ques.UserID = Convert.ToInt32(reader["UserID"]);
+                    cmd.Connection = _connection;
+                    cmd.CommandText = "dbo.sp_GetQuesById";
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add(new SqlParameter("@QuestionID", questionID));
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
 
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+
+                            {
+                                ques = new Questions
+                                {
+                                    QuestionID = Convert.ToInt32(reader["QuestionID"]),
+                                    Title = reader["Title"].ToString(),
+                                    Category = reader["Category"].ToString(),
+                                    Question = reader["Question"].ToString(),
+                                    MakeBy = reader["MakeBy"].ToString(),
+                                    MakeDate = Convert.ToDateTime(reader["MakeDate"]),
+                                    UserID = Convert.ToInt32(reader["UserID"])
+                                };
+
+                            }
+                        }
+                    }
                 }
+
+               
             }
-            return ques; 
+            return ques;
         }
     }
 }

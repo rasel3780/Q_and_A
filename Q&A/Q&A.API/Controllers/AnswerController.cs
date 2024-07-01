@@ -9,10 +9,17 @@ namespace Q_A.API.Controllers
     public class AnswerController : ControllerBase
     {
         [HttpGet("GetAnswersByQuestion/{quesId}")]
-        public IActionResult GetAnswersByQuesId(int quesId)
+        public async Task<IActionResult> GetAnswersByQuesId(int quesId)
         {
-            List<Answers> answers = Answers.GetAnsByQuesId(quesId);
-            return Ok(answers);
+            try
+            {
+                List<Answers> answers = await Answers.GetAnsByQuesId(quesId);
+                return Ok(answers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
