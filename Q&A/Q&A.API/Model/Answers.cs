@@ -9,11 +9,40 @@ namespace Q_A.API.Model
         public int QuestionID { get; set; }
         public string AnswerText { get; set; }
         public string CodeSnippet { get; set; }
+        public int MakeByUserID { get; set; }
+
         public string MakeBy { get; set; }
         public DateTime MakeDate { get; set; }
         public string? AnswerAcceptedBy { get; set; }
-        public DateTime? AnswerAcceptedDate { get; set; }
-        
+        public DateTime? AcceptedDate { get; set; }
+
+
+        public static int SaveAnswer(Answers answers)
+        {
+            string conString = DbConnection.GetDbConString();
+            using (SqlConnection _connection = new SqlConnection(conString))
+            {
+                _connection.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.Connection = _connection;
+                    cmd.CommandText = "dbo.sp_SaveAnswer";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.Add(new SqlParameter("@QuestionID", answers.QuestionID));
+                    cmd.Parameters.Add(new SqlParameter("@AnswerText", answers.AnswerText));
+                    cmd.Parameters.Add(new SqlParameter("@CodeSnippet", answers.CodeSnippet));
+                    cmd.Parameters.Add(new SqlParameter("@MakeByUserID", answers.MakeByUserID));
+                    cmd.Parameters.Add(new SqlParameter("@MakeDate", answers.MakeDate));
+                    cmd.Parameters.Add(new SqlParameter("@AnswerAcceptedBy", answers.AnswerAcceptedBy));
+                    cmd.Parameters.Add(new SqlParameter("@AcceptedDate", answers.AcceptedDate));
+
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+
+                }
+            }
+        }
 
         public static async Task<List<Answers>> GetAnsByQuesId(int quesId)
         {
@@ -51,7 +80,7 @@ namespace Q_A.API.Model
                                         MakeBy = reader["UserName"].ToString(),
                                         MakeDate = Convert.ToDateTime(reader["MakeDate"]),
                                         AnswerAcceptedBy = reader["AnswerAcceptedBy"].ToString(),
-                                        AnswerAcceptedDate = Convert.ToDateTime(reader["AcceptedDate"])
+                                        AcceptedDate = Convert.ToDateTime(reader["AcceptedDate"])
                                     };
 
                                     ansList.Add(ans);

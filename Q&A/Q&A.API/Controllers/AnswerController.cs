@@ -21,5 +21,28 @@ namespace Q_A.API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost("PostAnswer")]
+        public IActionResult PostAnswer([FromBody] Answers answer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Message = "Invalid model state", Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+            try
+            {
+                answer.MakeDate = DateTime.UtcNow;
+                int isSaved = Answers.SaveAnswer(answer);
+                if (isSaved > 0)
+                {
+                    return Ok(answer);
+                }
+                return BadRequest(new { Message = "Failed to save answer" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while processing your request", Error = ex.Message });
+            }
+        }
     }
 }
