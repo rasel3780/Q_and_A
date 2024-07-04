@@ -13,25 +13,27 @@
 
     </div>
    
-    <div class="row">
-        <form id="answerForm">
-            <h3>Post Your Answer</h3>
-            <div><p>@questionID</p></div>
-            <input type="hidden" id="QuestionID" name="QuestionID" value="@questionID" />
-            <div>
-                <label for="AnswerText">Your Answer:</label>
-                <textarea id="AnswerText" name="AnswerText" required></textarea>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form id="answerForm">
+                    <h3>Post Your Answer</h3>
+                    
+                    <input type="hidden" id="QuestionID" name="QuestionID" value="@questionID" />
+                    <div class="mb-3">
+                        <label for="AnswerText">Enter Your Answer:</label>
+                        <textarea id="AnswerText" name="AnswerText" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="CodeSnippet">Code snippet</label>
+                        <textarea id="CodeSnippet" name="CodeSnippet" placeholder="Paste code snippet if any"></textarea>
+                    </div>
+                    
+                    <button type="submit">Post Answer</button>
+                </form>
             </div>
-            <div>
-                <label for="MadeBy">Your Name:</label>
-                <input type="text" id="MadeBy" name="MadeBy" required />
-            </div>
-            <div>
-                <label for="UserID">Your User ID:</label>
-                <input type="text" id="UserID" name="UserID" required />
-            </div>
-            <button type="submit">Post Answer</button>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -42,6 +44,10 @@
     <script>
         $(document).ready(function () {
             QuestionController.LoadQuestionDetail(@questionID);
+            $('#answerForm').on('submit', function (event) {
+                event.preventDefault();
+                AnswerController.PostAnswer();
+            });
 
         });
     </script>
