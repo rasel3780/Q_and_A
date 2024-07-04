@@ -39,9 +39,18 @@ namespace Q_A.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }
+            } 
+        }
 
-           
+        [HttpPost("PostQuestion")]
+        public IActionResult PostQuestions([FromBody] Questions question)
+        {
+            int isSaved = Questions.SaveQuestion(question);
+            if(isSaved>0)
+            {
+                return Ok(question);
+            }
+            return BadRequest("Failed to post the question");
         }
     }
 }

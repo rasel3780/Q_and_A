@@ -17,5 +17,11 @@ namespace Q_A.Web.Controllers
             ViewBag.quesID = questionID;
             return View();
         }
+
+        [HttpGet("PostQuestion")]
+        public IActionResult AskQuestion()
+        {
+            return View();
+        }
     }
 }
