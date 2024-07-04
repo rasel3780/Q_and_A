@@ -27,12 +27,12 @@
                     `;
                 });
                 $('#questionContainer').html(questionContent);
-                
+
             }
             else {
                 $('#questionContainer').html('<p>No questions available to show at this moment.</p>');
             }
-        
+
         });
     },
 
@@ -53,7 +53,7 @@
                     </div>
                 `;
                 $('#questionDetail').html(questionContent);
-           
+
                 document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightBlock(block);
                 });
@@ -63,4 +63,41 @@
         });
         AnswerController.LoadAnswer(questionID);
     },
-}
+
+    PostQuestion: () => {
+        var title = $('#title').val();
+        var category = $('#category').val();
+        var questionText = $('#questionText').val();
+        var codeSnippet = $('#codeSnippet').val();
+        var makeByUserId = 1;
+        console.log(title);
+        console.log(category);
+        console.log(questionText);
+        console.log(codeSnippet);
+        console.log(makeByUserId);
+        var question = {
+            Title: title,
+            Category: category,
+            QuestionText: questionText,
+            CodeSnippet: codeSnippet,
+            MakeByUserId: makeByUserId,
+            MakeBy: "Some Name",
+            MakeDate: new Date().toISOString()
+        };
+
+        QuestionService.PostQuestion(question, response => {
+            if (response) {
+                alert('Question posted successfully!');
+                window.location.href = '/Question/';
+            } else {
+                alert('Failed to post the question. Please try again.');
+            }
+        });
+    },
+};
+$(document).ready(function () {
+    $('#postQuestionForm').on('submit', function (event) {
+        event.preventDefault();
+        QuestionController.PostQuestion();
+    });
+});
