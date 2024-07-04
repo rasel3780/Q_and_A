@@ -3,7 +3,10 @@
         console.log("LoadAnswer in AnsController called");
         AnswerService.GetAnswerByQuestionId(questionId, function (response) {
             let answerContent = '<h2>Answers</h2><ul>';
-            
+            console.log(response.length);
+            if (response.length <= 0) {
+                answerContent = `<h2>No answer avilable for this question yet</h2>`
+            }
             $.each(response, function (index, value) {
                 answerContent += `
                         <li>
