@@ -42,7 +42,7 @@ namespace Q_A.API.Controllers
             } 
         }
 
-        [HttpPost("PostQestion")]
+        [HttpPost("PostQuestion")]
         public IActionResult PostQuestions([FromBody] Questions question)
         {
             int isSaved = Questions.SaveQuestion(question);

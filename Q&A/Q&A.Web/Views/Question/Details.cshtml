@@ -1,39 +1,48 @@
-﻿
-@{
-    ViewData["Title"] = "Details";
+﻿@{
+    ViewData["Title"] = "Question Details";
     int questionID = ViewBag.quesID;
 }
 
-<script>
-    $(document).ready(function () 
-    {
-        // QuestionController.LoadQuestionDetail(@questionID);
-
-        $.get("http://localhost:5207/api/Question/QuestionDetail/1", function (data, status) {
-            let questionContent = `
-                        <h3 class="text-primary">${data.title}</h3>
-                        <p class="text-muted">#${data.questionID}</p>
-                        <p>${data.question}</p>
-                        <div class="d-flex justify-content-between">
-                            <span class="badge bg-secondary">${data.category}</span>
-                            <small class="text-primary">${data.makeBy}</small>
-                            <small>${new Date(data.makeDate).toLocaleDateString()}</small>
-                        </div>
-                    `;
-            $('#questionDetail').html(questionContent);
-            AnswerController.LoadAnswer(data.questionID);
-            console.log(data);
-        });
-           
-    });
-</script>
-
 <div class="container">
     <div class="row" id="questionDetail">
-
+        
     </div>
     <hr>
-    <div class="row" id="answerContainer">
+    
+    <div class="answerContainer">
 
     </div>
+   
+    <div class="row">
+        <form id="answerForm">
+            <h3>Post Your Answer</h3>
+            <div><p>@questionID</p></div>
+            <input type="hidden" id="QuestionID" name="QuestionID" value="@questionID" />
+            <div>
+                <label for="AnswerText">Your Answer:</label>
+                <textarea id="AnswerText" name="AnswerText" required></textarea>
+            </div>
+            <div>
+                <label for="MadeBy">Your Name:</label>
+                <input type="text" id="MadeBy" name="MadeBy" required />
+            </div>
+            <div>
+                <label for="UserID">Your User ID:</label>
+                <input type="text" id="UserID" name="UserID" required />
+            </div>
+            <button type="submit">Post Answer</button>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+    <script>
+        $(document).ready(function () {
+            QuestionController.LoadQuestionDetail(@questionID);
+
+        });
+    </script>
+}

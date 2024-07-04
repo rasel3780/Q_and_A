@@ -1,18 +1,25 @@
 ﻿using System.Data.SqlClient;
 using System.Runtime.Serialization;
 using System.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace Q_A.API.Model
 {
     public class Questions
     {
         public int QuestionID { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Category { get; set; }
-        public string Question { get; set; }
+        [Required]
+        public string QuestionText { get; set; }
+        [Required]
         public string MakeBy { get; set; }
+        [Required]
         public DateTime MakeDate { get; set; }
         public int UserID { get; set; }
+        public string CodeSnippet { get; set; }
         public List<Answers> AnswersList { get; set; }
 
         public Questions()
@@ -34,10 +41,11 @@ namespace Q_A.API.Model
                     cmd.Parameters.Clear();
                     cmd.Parameters.Add(new SqlParameter("@Title", question.Title));
                     cmd.Parameters.Add(new SqlParameter("@Category", question.Category));
-                    cmd.Parameters.Add(new SqlParameter("@Question", question.Question));
+                    cmd.Parameters.Add(new SqlParameter("@QuestionText", question.QuestionText));
                     cmd.Parameters.Add(new SqlParameter("@MakeBy", question.MakeBy));
                     cmd.Parameters.Add(new SqlParameter("@MakeDate", question.MakeDate));
                     cmd.Parameters.Add(new SqlParameter("@UserID", question.UserID));
+                    cmd.Parameters.Add(new SqlParameter("@CodeSnippet", question.CodeSnippet));
 
                     int res = cmd.ExecuteNonQuery();
                     return res;
@@ -74,10 +82,11 @@ namespace Q_A.API.Model
                                 QuestionID = Convert.ToInt32(reader["QuestionID"]),
                                 Title = reader["Title"].ToString(),
                                 Category = reader["Category"].ToString(),
-                                Question = reader["Question"].ToString(),
+                                QuestionText = reader["QuestionText"].ToString(),
                                 MakeBy = reader["MakeBy"].ToString(),
                                 MakeDate = Convert.ToDateTime(reader["MakeDate"]),
-                                UserID = Convert.ToInt32(reader["UserID"])
+                                UserID = Convert.ToInt32(reader["UserID"]),
+                                CodeSnippet = reader["CodeSnippet"].ToString()
                             };
 
                             quesList.Add(obj);
@@ -118,10 +127,11 @@ namespace Q_A.API.Model
                                     QuestionID = Convert.ToInt32(reader["QuestionID"]),
                                     Title = reader["Title"].ToString(),
                                     Category = reader["Category"].ToString(),
-                                    Question = reader["Question"].ToString(),
+                                    QuestionText = reader["QuestionText"].ToString(),
                                     MakeBy = reader["MakeBy"].ToString(),
                                     MakeDate = Convert.ToDateTime(reader["MakeDate"]),
-                                    UserID = Convert.ToInt32(reader["UserID"])
+                                    UserID = Convert.ToInt32(reader["UserID"]),
+                                    CodeSnippet = reader["CodeSnippet"].ToString()
                                 };
 
                             }

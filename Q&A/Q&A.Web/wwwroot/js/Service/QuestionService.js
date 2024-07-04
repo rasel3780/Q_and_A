@@ -7,9 +7,9 @@
         });
     },
     GetQuestionDetail: (questionId, callback) => {
-        console.log("QuestionDetail service called");
-        $.get("http://localhost:5207/api/Question/QuestionDetail/${questionId}", function (data, status) {
+        console.log("QuestionDetail service called", questionId);
+        $.get("http://localhost:5207/api/Question/QuestionDetail/" + questionId, function (data, status) {
             callback(data);
         });
-    }
+    },
 }
