@@ -45,12 +45,24 @@ namespace Q_A.API.Controllers
         [HttpPost("PostQuestion")]
         public IActionResult PostQuestions([FromBody] Questions question)
         {
-            int isSaved = Questions.SaveQuestion(question);
-            if(isSaved>0)
+            if (!ModelState.IsValid)
             {
-                return Ok(question);
+                return BadRequest(new { Message = "Invalid model state", Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
             }
-            return BadRequest("Failed to post the question");
+
+            try
+            {
+                int isSaved = Questions.SaveQuestion(question);
+                if (isSaved > 0)
+                {
+                    return Ok(question);
+                }
+                return BadRequest(new { Message = "Failed to save question" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while processing your request", Error = ex.Message });
+            }
         }
     }
 }

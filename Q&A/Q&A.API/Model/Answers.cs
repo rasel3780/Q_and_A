@@ -13,7 +13,7 @@ namespace Q_A.API.Model
         public DateTime MakeDate { get; set; }
         public string? AnswerAcceptedBy { get; set; }
         public DateTime? AnswerAcceptedDate { get; set; }
-        public int AnswerMakeByUserID { get; set; }
+        
 
         public static async Task<List<Answers>> GetAnsByQuesId(int quesId)
         {
@@ -48,9 +48,8 @@ namespace Q_A.API.Model
                                         QuestionID = Convert.ToInt32(reader["QuestionID"]),
                                         CodeSnippet = reader["CodeSnippet"].ToString(),
                                         AnswerText = reader["AnswerText"].ToString(),
-                                        MakeBy = reader["MakeBy"].ToString(),
+                                        MakeBy = reader["UserName"].ToString(),
                                         MakeDate = Convert.ToDateTime(reader["MakeDate"]),
-                                        AnswerMakeByUserID = Convert.ToInt32(reader["AnswerMakeByUserID"]),
                                         AnswerAcceptedBy = reader["AnswerAcceptedBy"].ToString(),
                                         AnswerAcceptedDate = Convert.ToDateTime(reader["AcceptedDate"])
                                     };
