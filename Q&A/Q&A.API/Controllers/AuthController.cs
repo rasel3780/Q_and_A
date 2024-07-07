@@ -14,7 +14,7 @@ namespace Q_A.API.Controllers
             var userFound = Users.AuthenticateUser(user.UserName, user.Password);
             if (userFound != null)
             {
-                return Ok(userFound);
+                return Ok(new { userID = userFound.UserID, userName = userFound.UserName });
             }
             return Unauthorized();
         }

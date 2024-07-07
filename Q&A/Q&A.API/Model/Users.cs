@@ -11,6 +11,7 @@ namespace Q_A.API.Model
 
         public static Users AuthenticateUser(string username, string password)
         {
+            Users user = null;
             string conString = DbConnection.GetDbConString();
             using (SqlConnection connection = new SqlConnection(conString))
             {
@@ -25,7 +26,7 @@ namespace Q_A.API.Model
                     {
                         if (reader.HasRows && reader.Read())
                         {
-                            return new Users
+                            user = new Users
                             {
                                 UserID = Convert.ToInt32(reader["UserID"]),
                                 UserName = reader["UserName"].ToString()
@@ -34,7 +35,7 @@ namespace Q_A.API.Model
                     }
                 }
             }
-            return null;
+            return user;
         }
     }
 }
