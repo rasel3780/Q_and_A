@@ -4,36 +4,42 @@
 }
 
 <div class="container">
-    <div class="row" id="questionDetail">
+    <div class="row" >
+        <div id="questionDetail"  class="col-12" style="border:solid; border-color:lightgrey; border-radius:5px; background-color:white; padding:10px">
+
+        </div>
         
     </div>
     <hr>
     
-    <div class="answerContainer">
-
+    <div class="row ">
+        <div class="answerContainer col-12" style="border:solid; border-color:lightgrey; border-radius:5px; background-color:white; padding:10px">
+        </div>
     </div>
    
-    <div class="container">
+   
         <div class="row" id="answerFormContainer">
-            <div class="col-12">
-                <form id="answerForm">
-                    <h3>Post Your Answer</h3>
+            <div class="col-12" style="border:solid; border-color:lightgrey; border-radius:15px; background-color:white ">
+                <form id="answerForm" style="padding:5px">
+                    <h3 style="text-align:center">Post Your Answer</h3>
                     
                     <input type="hidden" id="QuestionID" name="QuestionID" value="@questionID" />
                     <div class="mb-3">
-                        <label for="AnswerText">Enter Your Answer:</label>
-                        <textarea id="AnswerText" name="AnswerText" required></textarea>
+                        <label for="AnswerText" class="form-label">Enter Your Answer:</label>
+                        <textarea id="AnswerText" name="AnswerText" class="form-control" required></textarea>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="CodeSnippet">Code snippet</label>
-                        <textarea id="CodeSnippet" name="CodeSnippet" placeholder="Paste code snippet if any"></textarea>
+                        <label for="CodeSnippet" class="form-label">Code snippet</label>
+                        <textarea id="CodeSnippet" name="CodeSnippet" class="form-control" placeholder="Paste code snippet if any"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Post Answer</button>
                     </div>
                     
-                    <button type="submit">Post Answer</button>
                 </form>
             </div>
-        </div>
+ 
         <div id="loginToAnswer">
             <p>Please <a class="text-primary" style="cursor: pointer;" onclick="window.location.href='@Url.Action("Login", "User")'">login</a> to submit an answer.</p>
         </div>

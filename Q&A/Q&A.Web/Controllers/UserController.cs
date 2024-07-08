@@ -9,5 +9,11 @@ namespace Q_A.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return View();
+        }
     }
 }

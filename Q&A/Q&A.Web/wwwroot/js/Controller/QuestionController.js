@@ -7,7 +7,7 @@
                     let truncatedQuestionText = value.questionText.length > 25 ? value.questionText.substring(0, 25) + '... <a href="/Question/Detail/' + value.questionID + '" class="see-details">see details</a>' : value.questionText;
                     questionContent += `
                         <div class="col-12 mb-3">
-                            <div class="card ques-card">
+                            <div class="card ques-card" >
                                 <div class="card-body ques-card-body d-flex">
                                     <div class="stats mr-3 text-center">
                                         <div class="votes">
@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="question-details flex-grow-1">
                                         <h5 class="card-title text-primary" style="cursor: pointer;" onclick="window.location.href='/Question/Detail/${value.questionID}'">
-                                            ${value.title}
+                                            <u>${value.title}</u>
                                         </h5>
                                         <p class="card-text">${truncatedQuestionText}</p>
                                         <div class="d-flex justify-content-between align-items-center mt-4">
