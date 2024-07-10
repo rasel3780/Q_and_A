@@ -24,8 +24,11 @@
                 } else {
                     window.location.href = '/';
                 }
+                callback(true);
+                
             } else {
                 alert('Failed to authenticate the user. Please try again.');
+                callback(false);
             }
         });
     },
