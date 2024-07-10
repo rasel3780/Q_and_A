@@ -18,7 +18,7 @@ namespace Q_A.API.Controllers
             _jwtService = jwtService;
         }
 
-        [Authorize]
+        
         [HttpPost("Login")]
         public IActionResult Login([FromBody] Login loginData)
         {

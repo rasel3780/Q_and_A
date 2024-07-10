@@ -20,13 +20,14 @@ namespace Q_A.API.Controllers
         [HttpGet]
         public IActionResult GetServiceToken()
         {
+            _logger.LogInformation("Token Request");
             var defualtUser = new Users
             {
                 UserID = 0,
                 UserName = "Guest"
             };
             var token = _jwtService.GenerateToken(defualtUser);
-            return Ok(new { token });
+            return Ok(token);
         }
     }
 }

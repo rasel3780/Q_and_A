@@ -98,7 +98,7 @@ try
 
 
     var app = builder.Build();
-
+    Log.Information("Application Starting");
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
