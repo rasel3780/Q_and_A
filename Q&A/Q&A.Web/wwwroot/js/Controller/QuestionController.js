@@ -4,22 +4,36 @@
             if (response) {
                 let questionContent = '';
                 $.each(response, function (index, value) {
+                    let truncatedQuestionText = value.questionText.length > 25 ? value.questionText.substring(0, 25) + '... <a href="/Question/Detail/' + value.questionID + '" class="see-details">see details</a>' : value.questionText;
                     questionContent += `
                         <div class="col-12 mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary" style="cursor: pointer;"      onclick="window.location.href='/Question/Detail/${value.questionID}'" >
-                                        ${value.title}
-                                    </h5>
-                                   
-                                    <div class="d-flex justify-content-between align-items-center mt-4">
-                                        <small>Category:
-                                            <span class="badge bg-secondary">${value.category}</span>
-                                        </small>
-                                        <small class="text-muted">Asked by:
-                                            <span class="text-primary">${value.makeBy}</span> 
-                                            on ${new Date(value.makeDate).toLocaleDateString()}
-                                        </small>
+                            <div class="card ques-card" >
+                                <div class="card-body ques-card-body d-flex">
+                                    <div class="stats mr-3 text-center">
+                                        <div class="votes">
+                                            <span class="badge bg-secondary">1</span>
+                                            <div>votes</div>
+                                        </div>
+                                        <div class="answers mt-2">
+                                            <span class="badge bg-secondary">0</span>
+                                            <div>answers</div>
+                                        </div>
+                                    </div>
+                                    <div class="question-details flex-grow-1">
+                                        <h5 class="card-title text-primary" style="cursor: pointer;" onclick="window.location.href='/Question/Detail/${value.questionID}'">
+                                            <u>${value.title}</u>
+                                        </h5>
+                                        <p class="card-text">${truncatedQuestionText}</p>
+                                        <div class="d-flex justify-content-between align-items-center mt-4">
+                                            <small>Category:
+                                                <span class="badge bg-secondary">${value.category}</span>
+                                            </small>
+                                            <small class="text-muted">Asked by:
+                                                <span class="text-primary">${value.makeBy}</span> 
+                                                on ${new Date(value.makeDate).toLocaleDateString()}
+                                            </small>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -46,11 +60,15 @@
                     <hr>
                     <p>${response.questionText}</p>
                     ${codeSnippetContent}
-                    <div class="d-flex justify-content-between">
-                        <span class="badge bg-secondary">${response.category}</span>
-                        <small class="text-primary">${response.makeBy}</small>
-                        <small>${new Date(response.makeDate).toLocaleDateString()}</small>
-                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                                            <small>Category:
+                                                <span class="badge bg-secondary">${response.category}</span>
+                                            </small>
+                                            <small class="text-muted">Asked by:
+                                                <span class="text-primary">${response.makeBy}</span> 
+                                                on ${new Date(response.makeDate).toLocaleDateString()}
+                                            </small>
+                                        </div>
                 `;
                 $('#questionDetail').html(questionContent);
 
@@ -69,11 +87,8 @@
         var category = $('#category').val();
         var questionText = $('#questionText').val();
         var codeSnippet = $('#codeSnippet').val();
-        var makeByUserId = 1;
-        console.log(title);
-        console.log(category);
-        console.log(questionText);
-        console.log(codeSnippet);
+        var makeByUserId = localStorage.getItem('userID');
+        
         console.log(makeByUserId);
         var question = {
             Title: title,
