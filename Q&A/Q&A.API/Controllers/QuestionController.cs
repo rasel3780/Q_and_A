@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Q_A.API.Model;
 
 namespace Q_A.API.Controllers
@@ -42,6 +43,7 @@ namespace Q_A.API.Controllers
             } 
         }
 
+        [Authorize]
         [HttpPost("PostQuestion")]
         public IActionResult PostQuestions([FromBody] Questions question)
         {

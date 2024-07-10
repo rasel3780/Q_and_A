@@ -83,6 +83,10 @@
     },
 
     PostQuestion: () => {
+
+        var token = localStorage.getItem('token');
+        
+
         var title = $('#title').val();
         var category = $('#category').val();
         var questionText = $('#questionText').val();
@@ -109,6 +113,8 @@
             }
         });
     },
+ 
+
 };
 $(document).ready(function () {
     $('#postQuestionForm').on('submit', function (event) {

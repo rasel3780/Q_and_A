@@ -1,4 +1,16 @@
-﻿
+﻿@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '@Url.Action("Login", "User")?redirectTo=askQuestion';
+            }
+        });
+    </script>
+}
+
+
+
 <div class="container">
     <h4 class="text-center">Post a New Question</h4>
     <div class="row">

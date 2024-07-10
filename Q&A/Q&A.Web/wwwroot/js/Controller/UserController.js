@@ -13,9 +13,17 @@
         UserService.VerifyUser(user, response => {
             if (response) {
                 alert('user authenticated successfully!');
+                localStorage.setItem('token', response.token);
                 localStorage.setItem('userID', response.userID);
                 localStorage.setItem('userName', response.userName);
-                window.location.href = '/';
+                // Check if there's a redirect parameter
+                var urlParams = new URLSearchParams(window.location.search);
+                var redirectTo = urlParams.get('redirectTo');
+                if (redirectTo === 'askQuestion') {
+                    window.location.href = '/Question/AskQuestion';
+                } else {
+                    window.location.href = '/';
+                }
             } else {
                 alert('Failed to authenticate the user. Please try again.');
             }
