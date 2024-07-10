@@ -8,9 +8,17 @@ namespace Q_A.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
+
+        public UserController(ILogger<UserController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpPost("Login")]
         public IActionResult Login([FromBody] Login loginData)
         {
+            _logger.LogInformation("Login request with username:{username}", loginData.UserName);
             var userFound = Users.AuthenticateUser(loginData);
             if (userFound != null)
             {
