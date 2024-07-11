@@ -5,7 +5,7 @@ namespace Q_A.Web.Controllers
     [Route("Question")]
     public class QuestionController : Controller
     {
-        [HttpGet("")]
+        [HttpGet("/")]
         public IActionResult Index()
         {
             return View();
@@ -18,7 +18,7 @@ namespace Q_A.Web.Controllers
             return View();
         }
 
-        [HttpGet("PostQuestion")]
+        [HttpGet("AskQuestion")]
         public IActionResult AskQuestion()
         {
             return View();

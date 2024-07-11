@@ -1,42 +1,38 @@
 ﻿var AnswerController = {
-    LoadAnswer: (questionId) => {
+    LoadAnswer: (answers) => {
         console.log("LoadAnswer in AnsController called");
-        AnswerService.GetAnswerByQuestionId(questionId, function (response) {
-            let answerContent = '<h2>Answers</h2><ul>';
-            console.log(response.length);
-            if (response.length <= 0) {
-                answerContent = `<h2>No answer avilable for this question yet</h2>`
-            }
-            $.each(response, function (index, value) {
-                answerContent += `
-                        <li>
-                            <p>${value.answerText}</p>
-                            ${value.codeSnippet ? `<pre><code>${value.codeSnippet}</code></pre>` : ''}
-                            <p><strong>Answered by:</strong> ${value.makeBy} on ${new Date(value.makeDate).toLocaleDateString()}</p>
-                            ${value.answerAcceptedBy ? `<p><strong>Accepted by:</strong> ${value.answerAcceptedBy} on ${new Date(value.acceptedDate).toLocaleDateString()}</p>` : ''}
-                        </li>
-                        <hr>
-                    `;
-            });
-            answerContent += '</ul><hr>';
-            $('.answerContainer').html(answerContent);
-            $('pre code').each(function (i, block) {
-                hljs.highlightBlock(block);
-            });
+        let answerContent = '<h3 style="text-align:center">Answers</h3><ul>';
+
+        $.each(answers, function (index, value) {
+            answerContent += `
+                <li>
+                    <p>${value.answerText}</p>
+                    ${value.codeSnippet ? `<pre><code>${value.codeSnippet}</code></pre>` : ''}
+                    <p><strong>Answered by:</strong> ${value.makeBy} on ${new Date(value.makeDate).toLocaleDateString()}</p>
+                    ${value.answerAcceptedBy ? `<p><strong>Accepted by:</strong> ${value.answerAcceptedBy} on ${new Date(value.acceptedDate).toLocaleDateString()}</p>` : ''}
+                </li>
+                <hr>
+            `;
+        });
+        answerContent += '</ul>';
+        $('.answerContainer').html(answerContent);
+        $('pre code').each(function (i, block) {
+            hljs.highlightBlock(block);
         });
     },
     PostAnswer: () => {
         var questionId = $('#QuestionID').val();
         var answerText = $('#AnswerText').val();
         var codeSnippet = $('#CodeSnippet').val();
-        var makeByUserId = 2; 
-
+        var makeByUserId = localStorage.getItem('userID');
+        var userName = localStorage.getItem('userName');
+        
         var answer = {
             QuestionID: parseInt(questionId),
             AnswerText: answerText,
             CodeSnippet: codeSnippet,
             MakeByUserID: makeByUserId,
-            MakeBy: "SOMEONE",
+            MakeBy: userName,
             MakeDate: new Date().toISOString()
         };
 
@@ -46,8 +42,8 @@
             if (response) {
                 alert('Answer posted successfully!');
                 
-                AnswerController.LoadAnswer(questionId);
-               
+                
+                QuestionController.LoadQuestionDetail(questionId);
                 $('#AnswerText').val('');
                 $('#CodeSnippet').val('');
             } else {

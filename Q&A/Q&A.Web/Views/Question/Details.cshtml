@@ -4,50 +4,50 @@
 }
 
 <div class="container">
-    <div class="row" >
-        <div id="questionDetail"  class="col-12" style="border:solid; border-color:lightgrey; border-radius:5px; background-color:white; padding:10px">
-
+    <div class="row mb-3">
+        <div id="questionDetail" class="col-12" style="border:solid; border-color:lightgrey; border-radius:10px; background-color:white; padding:10px">
         </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="answerContainer col-12" style="border:solid; border-color:lightgrey; border-radius:10px; background-color:white; padding:10px">
+        </div>
+    </div>
+
+
+    <div class="row" id="answerFormContainer">
+        <div class="col-12" style="border:solid; border-color:lightgrey; border-radius:10px; background-color:white ">
+            <form id="answerForm" style="padding:5px">
+                <h3 style="text-align:center">Post Your Answer</h3>
+
+                <input type="hidden" id="QuestionID" name="QuestionID" value="@questionID" />
+                <div class="mb-3">
+                    <label for="AnswerText" class="form-label">Enter Your Answer:</label>
+                    <textarea id="AnswerText" name="AnswerText" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="CodeSnippet" class="form-label">Code snippet</label>
+                    <textarea id="CodeSnippet" name="CodeSnippet" class="form-control" placeholder="Paste code snippet if any"></textarea>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Post Answer</button>
+                </div>
+
+            </form>
+        </div>
+
         
     </div>
-    <hr>
-    
-    <div class="row ">
-        <div class="answerContainer col-12" style="border:solid; border-color:lightgrey; border-radius:5px; background-color:white; padding:10px">
-        </div>
+    <div class="row">
+        <div id="loginToAnswer" col-12" style="border:solid; border-color:lightgrey; border-radius:5px; background-color:#fbeecd; padding:10px; text-align:center">
+        <p>Please <a class="text-primary" style="cursor: pointer;" onclick="window.location.href='@Url.Action("Login", "User")'">login</a> to submit an answer.</p>
     </div>
-   
-   
-        <div class="row" id="answerFormContainer">
-            <div class="col-12" style="border:solid; border-color:lightgrey; border-radius:15px; background-color:white ">
-                <form id="answerForm" style="padding:5px">
-                    <h3 style="text-align:center">Post Your Answer</h3>
-                    
-                    <input type="hidden" id="QuestionID" name="QuestionID" value="@questionID" />
-                    <div class="mb-3">
-                        <label for="AnswerText" class="form-label">Enter Your Answer:</label>
-                        <textarea id="AnswerText" name="AnswerText" class="form-control" required></textarea>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="CodeSnippet" class="form-label">Code snippet</label>
-                        <textarea id="CodeSnippet" name="CodeSnippet" class="form-control" placeholder="Paste code snippet if any"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Post Answer</button>
-                    </div>
-                    
-                </form>
-            </div>
- 
-        <div id="loginToAnswer">
-            <p>Please <a class="text-primary" style="cursor: pointer;" onclick="window.location.href='@Url.Action("Login", "User")'">login</a> to submit an answer.</p>
-        </div>
     </div>
 </div>
 
 @section Scripts {
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
     <script>

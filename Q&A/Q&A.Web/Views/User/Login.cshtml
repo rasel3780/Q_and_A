@@ -1,4 +1,8 @@
-﻿<style>
+﻿@{
+    var redirectTo = Context.Request.Query["redirectTo"].ToString();
+}
+
+<style>
     .form-outline {
         text-align: left;
     }
@@ -14,6 +18,16 @@
         margin-top: 5px;
     }
 </style>
+
+@if (redirectTo == "askQuestion")
+{
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <h5 class="card-title">You must be logged in to ask a question</h5>
+            <p class="card-text">Log in below or sign up</p>
+        </div>
+    </div>
+}
 <div class="card from-card">
     <form id="loginForm">
         <div class="card-body p-5 text-center">
@@ -75,6 +89,22 @@
             $('#showPass').on('change', function () {
                 var passwordInput = $('#password');
                 passwordInput.attr('type', this.checked ? 'text' : 'password');
+            });
+
+            $('#loginForm').on('submit', function (event) {
+                event.preventDefault();
+                UserController.GetUser(function (success) {
+                    if (success) {
+                        var urlParams = new URLSearchParams(window.location.search);
+                        var redirectTo = urlParams.get('redirectTo');
+                        var questionID = urlParams.get('questionID');
+                        if (redirectTo === 'questionDetail' && questionID) {
+                            window.location.href = '/Question/Detail/' + questionID;
+                        } else {
+                            window.location.href = '/';
+                        }
+                    }
+                });
             });
         });
     </script>
