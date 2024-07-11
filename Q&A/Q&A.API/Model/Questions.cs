@@ -15,7 +15,6 @@ namespace Q_A.API.Model
         [Required]
         public string QuestionText { get; set; }
         
-    
         public int MakeByUserId { get; set; }
 
         public string MakeBy { get; set; }
@@ -23,6 +22,7 @@ namespace Q_A.API.Model
         public DateTime MakeDate { get; set; }
         public int UserID { get; set; }
         public string CodeSnippet { get; set; }
+        public int AnswerCount { get; set; }
         public List<Answers> AnswersList { get; set; }
 
         public Questions()
@@ -87,7 +87,8 @@ namespace Q_A.API.Model
                                 QuestionText = reader["QuestionText"].ToString(),
                                 MakeBy = reader["UserName"].ToString(),
                                 MakeDate = Convert.ToDateTime(reader["MakeDate"]),
-                                CodeSnippet = reader["CodeSnippet"].ToString()
+                                CodeSnippet = reader["CodeSnippet"].ToString(),
+                                AnswerCount = Convert.ToInt32(reader["AnswerCount"])
                             };
                             quesList.Add(obj);
                         }

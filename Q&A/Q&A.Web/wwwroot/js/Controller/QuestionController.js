@@ -10,12 +10,8 @@
                             <div class="card ques-card" >
                                 <div class="card-body ques-card-body d-flex">
                                     <div class="stats mr-3 text-center">
-                                        <div class="votes">
-                                            <span class="badge bg-secondary">1</span>
-                                            <div>votes</div>
-                                        </div>
                                         <div class="answers mt-2">
-                                            <span class="badge bg-secondary">0</span>
+                                            <span class="badge bg-secondary">${value.answerCount}</span>
                                             <div>answers</div>
                                         </div>
                                     </div>
@@ -56,33 +52,44 @@
             if (response) {
                 let codeSnippetContent = response.codeSnippet ? `<pre><code class="language-javascript">${response.codeSnippet}</code></pre>` : '';
                 let questionContent = `
-                    <h3 class="text-primary">${response.title}</h3>
-                    <hr>
-                    <p>${response.questionText}</p>
-                    ${codeSnippetContent}
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                                            <small>Category:
-                                                <span class="badge bg-secondary">${response.category}</span>
-                                            </small>
-                                            <small class="text-muted">Asked by:
-                                                <span class="text-primary">${response.makeBy}</span> 
-                                                on ${new Date(response.makeDate).toLocaleDateString()}
-                                            </small>
-                                        </div>
-                `;
+                <h3 class="text-primary">${response.title}</h3>
+                <hr>
+                <p>${response.questionText}</p>
+                ${codeSnippetContent}
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <small>Category:
+                        <span class="badge bg-secondary">${response.category}</span>
+                    </small>
+                    <small class="text-muted">Asked by:
+                        <span class="text-primary">${response.makeBy}</span> 
+                        on ${new Date(response.makeDate).toLocaleDateString()}
+                    </small>
+                </div>
+            `;
                 $('#questionDetail').html(questionContent);
 
+                // Highlight code snippets
                 document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightBlock(block);
                 });
+
+                // Load answers
+                if (response.answersList && response.answersList.length > 0) {
+                    AnswerController.LoadAnswer(response.answersList);
+                } else {
+                    $('.answerContainer').html('<h2>No answers available for this question yet</h2>');
+                }
             } else {
                 $('#questionDetail').html('<p>Question not found.</p>');
             }
         });
-        AnswerController.LoadAnswer(questionID);
     },
 
     PostQuestion: () => {
+
+        var token = localStorage.getItem('token');
+        var userName = localStorage.getItem('userName');
+
         var title = $('#title').val();
         var category = $('#category').val();
         var questionText = $('#questionText').val();
@@ -96,7 +103,7 @@
             QuestionText: questionText,
             CodeSnippet: codeSnippet,
             MakeByUserId: makeByUserId,
-            MakeBy: "Some Name",
+            MakeBy: userName,
             MakeDate: new Date().toISOString()
         };
 
@@ -109,6 +116,8 @@
             }
         });
     },
+ 
+
 };
 $(document).ready(function () {
     $('#postQuestionForm').on('submit', function (event) {

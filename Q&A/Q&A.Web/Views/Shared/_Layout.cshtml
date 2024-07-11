@@ -38,7 +38,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Question" asp-action="Index" >Questions</a>
                         </li>
                         <li class="nav-item mx-2">
-                            <a class="nav-link" asp-area="" asp-controller="Question" asp-action="AskQuestion">Ask Question</a>
+                            <a class="nav-link" id="askBtn" href="#" onclick="checkAuthorizationAndRedirect()">Ask Question</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav d-flex">
@@ -75,9 +75,18 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
+        function checkAuthorizationAndRedirect() {
+            var token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = '@Url.Action("AskQuestion", "Question")';
+            } else {
+                window.location.href = '@Url.Action("Login", "User")?redirectTo=askQuestion';
+            }
+        }
         $(document).ready(function () {
             console.log("hit");
             const userName = localStorage.getItem('userName');
+            var token = localStorage.getItem('token');
             if (userName) {
              
                 $('#navLogin').hide();
@@ -99,6 +108,11 @@
             $('#navUserName').click(function (e) {
                 e.preventDefault();
                 
+            });
+
+            $('#askBtn').click(function (e) {
+                e.preventDefault();
+                checkAuthorizationAndRedirect();
             });
         });
     </script>

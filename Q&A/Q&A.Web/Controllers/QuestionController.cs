@@ -18,7 +18,7 @@ namespace Q_A.Web.Controllers
             return View();
         }
 
-        [HttpGet("PostQuestion")]
+        [HttpGet("AskQuestion")]
         public IActionResult AskQuestion()
         {
             return View();
