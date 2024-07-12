@@ -141,5 +141,45 @@ namespace Q_A.API.Model
             }
             return ques;
         }
+
+        public static async Task<List<Questions>> GetQuestionsByUserId(int userId)
+        {
+            List<Questions> quesList = new List<Questions>();
+            string conString = DbConnection.GetDbConString();
+            using (SqlConnection _connection = new SqlConnection(conString))
+            {
+                await _connection.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.Connection = _connection;
+                    cmd.CommandText = "dbo.sp_GetQuestionsByUserId";
+                    cmd.Parameters.Add(new SqlParameter("@UserID", userId));
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                Questions obj = new Questions
+                                {
+                                    QuestionID = Convert.ToInt32(reader["QuestionID"]),
+                                    Title = reader["Title"].ToString(),
+                                    Category = reader["Category"].ToString(),
+                                    MakeBy = reader["UserName"].ToString(),
+                                    MakeDate = Convert.ToDateTime(reader["MakeDate"])
+                                    
+                                };
+                                quesList.Add(obj);
+                            }
+                        }
+                    }
+                }
+            }
+            return quesList;
+        }
     }
 }
