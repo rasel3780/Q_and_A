@@ -23,6 +23,18 @@ namespace Q_A.API.Controllers
             
         }
 
+        [Authorize]
+        [HttpGet("UserQuestions/{userId}")]
+        public async Task<IActionResult> GetQuestionsByUserId(int userId)
+        {
+            var questions = await Questions.GetQuestionsByUserId(userId);
+            if (questions == null || questions.Count == 0)
+            {
+                return NotFound(new { Message = "No questions found for this user." });
+            }
+            return Ok(questions);
+        }
+
         [HttpGet("QuestionDetail/{questionID}")]
         public async Task<IActionResult> GetQuestionDetail(int questionID)
         {

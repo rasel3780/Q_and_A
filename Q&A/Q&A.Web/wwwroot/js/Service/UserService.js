@@ -35,6 +35,24 @@
         });
     },
 
+    GetQuestionByUser: (userID, callback) => {
+        console.log("Get Question By user service called:" + userID);
+        $.ajax({
+            url: "http://localhost:5207/api/Question/UserQuestions/" + userID,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            success: function (data) {
+                callback(data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching questions:", error);
+                callback([]);
+            }
+        });
+    },
+
     CheckUnique: (field, value, callback) => {
         $.ajax({
             url: `http://localhost:5207/api/User/CheckUnique?field=${field}&value=${encodeURIComponent(value)}`,

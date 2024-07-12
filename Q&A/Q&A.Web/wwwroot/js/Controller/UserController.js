@@ -16,7 +16,6 @@
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('userID', response.userID);
                 localStorage.setItem('userName', response.userName);
-                // Check if there's a redirect parameter
                 var urlParams = new URLSearchParams(window.location.search);
                 var redirectTo = urlParams.get('redirectTo');
                 if (redirectTo === 'askQuestion') {
@@ -52,5 +51,28 @@
                 alert('Registration failed: ' + (error.message || 'Please try again.'));
             }
         });
+    },
+
+    GetQuestionListByUser: (userID) => {
+        console.log("Get Question List by user called in controller:" + userID);
+
+        UserService.GetQuestionByUser(userID, function (data) {
+            const questionList = $("#questionList");
+            questionList.empty();
+
+            if (data.length === 0) {
+                questionList.append("<tr><td colspan='3'>No questions found</td></tr>");
+            } else {
+                data.forEach(question => {
+                    const row = `<tr>
+                                    <td><a href="/Question/Detail/${question.questionID}" class="text-primary">${question.title}</a></td>Question/Detail/${question.questionID}'">${question.title}</td>
+                                    <td>${question.category}</td>
+                                    <td>${new Date(question.makeDate).toLocaleDateString()}</td>
+                                 </tr>`;
+                    questionList.append(row);
+                });
+            }
+        });
     }
+
 }
