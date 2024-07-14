@@ -1,5 +1,6 @@
 ﻿var QuestionController = {
     LstQuestions: () => {
+        showLoading();
         QuestionService.QuestionLst(response => {
             if (response) {
                 let questionContent = '';
@@ -37,16 +38,18 @@
                     `;
                 });
                 $('#questionContainer').html(questionContent);
-
+                hideLoading();
             }
             else {
                 $('#questionContainer').html('<p>No questions available to show at this moment.</p>');
+                hideLoading();
             }
-
+            
         });
     },
 
     LoadQuestionDetail: (questionID) => {
+        showLoading();
         console.log("Load Details called", questionID);
         QuestionService.GetQuestionDetail(questionID, response => {
             if (response) {
@@ -82,11 +85,12 @@
             } else {
                 $('#questionDetail').html('<p>Question not found.</p>');
             }
+            hideLoading();
         });
     },
 
     PostQuestion: () => {
-
+        showLoading();
         var token = localStorage.getItem('token');
         var userName = localStorage.getItem('userName');
 
@@ -108,12 +112,15 @@
         };
 
         QuestionService.PostQuestion(question, response => {
+            hideLoading();
             if (response) {
-                alert('Question posted successfully!');
-                window.location.href = '/Question/';
+                NotificationHelper.showSuccess('Question posted successfully!', () => {
+                    window.location.href = '/';
+                });
             } else {
-                alert('Failed to post the question. Please try again.');
+                NotificationHelper.showError('Failed to post the question. Please try again.');
             }
+            
         });
     },
  

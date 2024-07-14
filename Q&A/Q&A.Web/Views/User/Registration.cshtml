@@ -18,6 +18,7 @@
         margin-top: 5px;
     }
 </style>
+
 <div class="card from-card">
     <form id="registrationForm">
         <div class="card-body p-5 text-center">
@@ -112,7 +113,7 @@
                     error.insertAfter(element);
                 },
                 submitHandler: function (form) {
-                    alert("Form is valid. Ready to submit!");
+                    
                     UserController.RegisterUser();
                 }
             });
