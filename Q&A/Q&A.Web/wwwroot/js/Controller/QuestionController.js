@@ -38,13 +38,12 @@
                     `;
                 });
                 $('#questionContainer').html(questionContent);
-                hideLoading();
             }
             else {
                 $('#questionContainer').html('<p>No questions available to show at this moment.</p>');
-                hideLoading();
             }
-            
+            hideLoading();
+ 
         });
     },
 
