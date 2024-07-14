@@ -1,5 +1,6 @@
 ﻿var AnswerController = {
     LoadAnswer: (answers) => {
+        showLoading();
         console.log("LoadAnswer in AnsController called");
         let answerContent = '<h3 style="text-align:center">Answers</h3><ul>';
 
@@ -19,8 +20,10 @@
         $('pre code').each(function (i, block) {
             hljs.highlightBlock(block);
         });
+        hideLoading();        
     },
     PostAnswer: () => {
+        showLoading();
         var questionId = $('#QuestionID').val();
         var answerText = $('#AnswerText').val();
         var codeSnippet = $('#CodeSnippet').val();
@@ -39,16 +42,17 @@
         console.log("Sending answer:", JSON.stringify(answer));
 
         AnswerService.PostAnswer(answer, response => {
+            hideLoading();
             if (response) {
-                alert('Answer posted successfully!');
-                
-                
-                QuestionController.LoadQuestionDetail(questionId);
-                $('#AnswerText').val('');
-                $('#CodeSnippet').val('');
+                NotificationHelper.showSuccess('Answer posted successfully!', () => {
+                    QuestionController.LoadQuestionDetail(questionId);
+                    $('#AnswerText').val('');
+                    $('#CodeSnippet').val('');
+                });
             } else {
-                alert('Failed to post the answer. Please try again.');
+                NotificationHelper.showError('Failed to post the answer. Please try again.');
             }
+           
         });
     }
 

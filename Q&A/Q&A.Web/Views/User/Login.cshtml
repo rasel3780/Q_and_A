@@ -19,12 +19,13 @@
     }
 </style>
 
+
 @if (redirectTo == "askQuestion")
 {
-    <div class="card mb-4">
+    <div class="card mb-4" style="background-color:bisque">
         <div class="card-body text-center">
             <h5 class="card-title">You must be logged in to ask a question</h5>
-            <p class="card-text">Log in below or sign up</p>
+            <p class="card-text">Log in below or <a href="/User/Registration">sign up</a></p>
         </div>
     </div>
 }
