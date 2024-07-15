@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Q_A.API.Model;
+using System.Security.Claims;
 
 namespace Q_A.API.Controllers
 {
@@ -44,6 +45,26 @@ namespace Q_A.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { Message = "An error occurred while processing your request", Error = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPost("AcceptAnswer")]
+        public async Task<IActionResult> AcceptAnswer([FromBody] int answerId)
+        {
+            try
+            {
+                var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+                var result = await Answers.AcceptAnswer(answerId, userName);
+                if (result)
+                {
+                    return Ok(new { success = true });
+                }
+                return BadRequest(new { success = false, message = "Failed to accept answer" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "An error occurred while processing your request", error = ex.Message });
             }
         }
     }

@@ -125,6 +125,7 @@ namespace Q_A.API.Model
                             {
                                 ques = new Questions
                                 {
+                                    MakeByUserId = Convert.ToInt32(reader["MakeByUserID"]),
                                     QuestionID = Convert.ToInt32(reader["QuestionID"]),
                                     Title = reader["Title"].ToString(),
                                     Category = reader["Category"].ToString(),

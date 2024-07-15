@@ -15,6 +15,7 @@ namespace Q_A.API.Model
         public DateTime MakeDate { get; set; }
         public string? AnswerAcceptedBy { get; set; }
         public DateTime? AcceptedDate { get; set; }
+        public bool IsAccepted { get; set; }
 
 
         public static int SaveAnswer(Answers answers)
@@ -79,6 +80,7 @@ namespace Q_A.API.Model
                                         AnswerText = reader["AnswerText"].ToString(),
                                         MakeBy = reader["UserName"].ToString(),
                                         MakeDate = Convert.ToDateTime(reader["MakeDate"]),
+                                        IsAccepted = Convert.ToBoolean(reader["IsAccepted"]),
                                         AnswerAcceptedBy = reader["AnswerAcceptedBy"].ToString(),
                                         AcceptedDate = Convert.ToDateTime(reader["AcceptedDate"])
                                     };
@@ -96,6 +98,23 @@ namespace Q_A.API.Model
                 }
             }
             return ansList;
+        }
+
+        public static async Task<bool> AcceptAnswer(int answerId, string acceptedBy)
+        {
+            string conString = DbConnection.GetDbConString();
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                await connection.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("sp_AcceptAnswer", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@AnswerID", answerId));
+                    cmd.Parameters.Add(new SqlParameter("@AcceptedBy", acceptedBy));
+                    int result = await cmd.ExecuteNonQueryAsync();
+                    return result > 0;
+                }
+            }
         }
     }
 }
