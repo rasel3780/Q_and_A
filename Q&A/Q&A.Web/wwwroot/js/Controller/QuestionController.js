@@ -8,7 +8,7 @@
                     let truncatedQuestionText = value.questionText.length > 25 ? value.questionText.substring(0, 25) + '... <a href="/Question/Detail/' + value.questionID + '" class="see-details">see details</a>' : value.questionText;
                     questionContent += `
                         <div class="col-12 mb-3">
-                            <div class="card ques-card" >
+                            <div class="card ques-card">
                                 <div class="card-body ques-card-body d-flex">
                                     <div class="stats mr-3 text-center">
                                         <div class="answers mt-2">
@@ -29,7 +29,6 @@
                                                 <span class="text-primary">${value.makeBy}</span> 
                                                 on ${new Date(value.makeDate).toLocaleDateString()}
                                             </small>
-                                            
                                         </div>
                                     </div>
                                 </div>
@@ -38,12 +37,10 @@
                     `;
                 });
                 $('#questionContainer').html(questionContent);
-            }
-            else {
+            } else {
                 $('#questionContainer').html('<p>No questions available to show at this moment.</p>');
             }
             hideLoading();
- 
         });
     },
 
@@ -77,7 +74,7 @@
 
                 // Load answers
                 if (response.answersList && response.answersList.length > 0) {
-                    AnswerController.LoadAnswer(response.answersList);
+                    AnswerController.LoadAnswer(response.answersList, response.makeByUserId);
                 } else {
                     $('.answerContainer').html('<h2>No answers available for this question yet</h2>');
                 }
@@ -98,7 +95,7 @@
         var questionText = $('#questionText').val();
         var codeSnippet = $('#codeSnippet').val();
         var makeByUserId = localStorage.getItem('userID');
-        
+
         console.log(makeByUserId);
         var question = {
             Title: title,
@@ -119,12 +116,14 @@
             } else {
                 NotificationHelper.showError('Failed to post the question. Please try again.');
             }
-            
+
         });
     },
- 
 
+   
+    
 };
+
 $(document).ready(function () {
     $('#postQuestionForm').on('submit', function (event) {
         event.preventDefault();
