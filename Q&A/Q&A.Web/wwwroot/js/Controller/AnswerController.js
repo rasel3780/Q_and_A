@@ -12,7 +12,7 @@
             let acceptedBadge = '';
 
             if (canAcceptAnswers && !value.isAccepted) {
-                acceptButton = `<button class="btn btn-success btn-sm accept-answer" data-answer-id="${value.answerID}">Accept Answer</button>`;
+                acceptButton = `<button class="btn btn-warning btn-sm accept-answer" data-answer-id="${value.answerID}">Accept Answer</button>`;
             }
 
             if (value.isAccepted) {
@@ -100,9 +100,4 @@
     }
 };
 
-$(document).ready(function () {
-    $('#answerForm').off('submit').on('submit', function (event) {
-        event.preventDefault();
-        AnswerController.PostAnswer();
-    });
-});
+
